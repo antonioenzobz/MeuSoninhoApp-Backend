@@ -15,7 +15,7 @@ usersRoute.get("/:id{[0-9]+}", async (c) => {
   console.log(c.req.param("id"));
   let id = Number(c.req.param("id"));
   const user = await prisma.user.findUnique({
-    where: { id },
+    where: { id },  
   });
   return c.json(user);
 });

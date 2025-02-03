@@ -10,9 +10,11 @@ loginRoute.post("/", async (c: Context) => {
   const user = await prisma.user.findUnique({
     where: { email },
   });
+
   if (!user) {
     return c.json({ message: "Usuário não encontrado" }, 400);
   }
+
   const verify = Bun.password.verifySync(password, user.password);
   if (!verify) {
     return c.json({ message: "Senha inválida" }, 400);
@@ -22,6 +24,7 @@ loginRoute.post("/", async (c: Context) => {
     {
       token: await getToken(user.id),
       user: {
+        id: user.id,
         name: user.name,
         email: user.email,
       },
